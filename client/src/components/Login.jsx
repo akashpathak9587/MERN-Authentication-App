@@ -10,9 +10,10 @@ import {
 import { RiErrorWarningFill, RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import Hero from "../assets/Sign-up/Hero.png";
 import Logo from "../assets/Sign-up/Logo.png";
-import Google from "../assets/Sign-up/Google.png";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import GoogleLogin from "./GoogleLogin";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,16 +21,55 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+
+  // Function to validate email format
   const checkEmail = (email) => {
     return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
       email
     );
   };
 
-  const handleSubmit = (e) => {
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Email: " + email + " Password: " + password);
+
+    // Reset error state
+    setIsError(false);
+    setErrorMessage("");
+
+    // Basic validation
+    if (!email || !password) {
+      setIsError(true);
+      setErrorMessage("Please fill in all fields.");
+      return;
+    }
+    if (!checkEmail(email)) {
+      setIsValidEmail(false);
+      setErrorMessage("Invalid email format.");
+      return;
+    }
+
+    // API call to login endpoint
+    try {
+      const response = await axios.post("http://localhost:5001/login", {
+        email,
+        password,
+      });
+      if (response.status === 200) {
+        navigate("/dashboard"); // Redirect to homepage or dashboard on successful login
+      }
+    } catch (error) {
+      setIsError(true);
+      if (error.response && error.response.data.error) {
+        setErrorMessage(error.response.data.error);
+      } else {
+        setErrorMessage("An error occurred. Please try again later.");
+      }
+    }
   };
+
   return (
     <Container fluid className="vh-100">
       <Row className="vh-100">
@@ -50,8 +90,7 @@ const Login = () => {
                 className="bg-faebfa text-danger px-4 py-2 rounded-pill fw-300 fs-6 mt-2 mb-4"
                 role="alert"
               >
-                {" "}
-                <RiErrorWarningFill size={20} /> Incorrect Email Id or Password
+                <RiErrorWarningFill size={20} /> {errorMessage}
               </div>
             )}
             <div className="title mb-2">
@@ -60,12 +99,7 @@ const Login = () => {
                 Explore more design assets of your choice
               </p>
             </div>
-            <div className="google-login d-flex justify-content-center align-items-center bd-b3b9c4 w-75 p-3 rounded-4 gap-2">
-              <div className="logo">
-                <img src={Google} alt="" />
-              </div>
-              Continue With Google
-            </div>
+            <GoogleLogin />
             <div className="liner w-75 d-flex justify-content-between align-items-center gap-2 mt-3">
               <div className="line w-50 h-1 bg-dfe2e6 "></div>
               or
@@ -120,7 +154,7 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                  <div className="position-absolute show-password fs-3 pt-3 top-0 end-0 pe-3  d-flex justify-content-end align-items-center">
+                  <div className="position-absolute show-password fs-3 pt-3 top-0 end-0 pe-3 d-flex justify-content-end align-items-center">
                     {showPassword ? (
                       <RiEyeOffLine
                         onClick={() => setShowPassword(!showPassword)}

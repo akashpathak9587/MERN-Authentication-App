@@ -88,6 +88,10 @@ input {
   width: 60% !important;
 }
 
+.cursor-pointer{
+  cursor: pointer !important;
+}
+
 @media screen and (max-width: 600px) {
   .w-75{
     width: 90% !important;

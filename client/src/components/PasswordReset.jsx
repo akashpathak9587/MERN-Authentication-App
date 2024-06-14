@@ -86,7 +86,7 @@ const PasswordReset = () => {
               </button>
             </Form>
             <div className="w-75 mt-3 c-5d6b82 fw-400">
-              <Link to="#" className="text-decoration-none">
+              <Link to="/" className="text-decoration-none">
                 Go Back
               </Link>
             </div>

@@ -89,7 +89,7 @@ router.post('/api/google-login', async (req, res) => {
       // Handle user login or registration here
       const userDetail = await User.findOne({ googleId: userInfo.sub });
       if (!userDetail) {
-        let newUser = new user({
+        let newUser = new User({
           googleId: userInfo.sub,
           name: userInfo.name,
           email: userInfo.email,

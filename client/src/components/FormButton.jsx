@@ -1,5 +1,3 @@
-import React from "react";
-
 function FormButton({ text }) {
   return (
     <button

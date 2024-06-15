@@ -1,12 +1,13 @@
+import { Route, Routes } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import RequestSent from "./components/RequestSent";
-import ChangePassword from "./components/ChangePassword";
-import ResetSuccess from "./components/ResetSuccess";
-import { Route, Routes } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import ForgotPassword from "./pages/ForgotPassword";
+import RequestSent from "./pages/RequestSent";
+import ChangePassword from "./pages/ChangePassword";
+import ResetSuccess from "./pages/ResetSuccess";
+import "./App.css";
 
 const App = () => {
   return (

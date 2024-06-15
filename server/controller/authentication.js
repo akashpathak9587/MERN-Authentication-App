@@ -109,7 +109,6 @@ const googleLogin = async (req, res) => {
     const userDetail = await User.findOne({ email: userInfo.email });
     if (!userDetail) {
       let newUser = new User({
-        googleId: userInfo.sub,
         name: userInfo.name,
         email: userInfo.email,
         picture: userInfo.picture,

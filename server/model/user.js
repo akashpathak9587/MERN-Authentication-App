@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 
 // Define the User schema with validation and constraints
 const UserSchema = new mongoose.Schema({
-    googleId: {
-        type: String,
-        unique: true
-    },
     name: {
         type: String,
     },

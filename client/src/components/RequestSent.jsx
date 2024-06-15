@@ -2,9 +2,10 @@ import { Col, Container, Row } from "react-bootstrap";
 
 import Hero from "../assets/Sign-up/Hero.png";
 import Logo from "../assets/Sign-up/Logo.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function RequestSent() {
+  const { state } = useLocation();
   return (
     <Container fluid className="vh-100">
       <Row className="vh-100">
@@ -26,7 +27,7 @@ function RequestSent() {
               </h2>
               <p className="fs-6 fw-300 c-5d6b82">
                 A Reset password link sent to this <br />
-                mail Id <a href="0">contact@nyinst.com</a> if account exists.
+                mail Id <a href="0">{state.email}</a> if account exists.
               </p>
             </div>
 

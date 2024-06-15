@@ -11,18 +11,44 @@ import { RiErrorWarningFill, RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import Hero from "../assets/Sign-up/Hero.png";
 import Logo from "../assets/Sign-up/Logo.png";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import axios from "axios";
 
 function ChangePassword() {
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  const userId = searchParams.get("id");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [cnfPassword, setCnfPassword] = useState("");
   const [showCnfPassword, setShowCnfPassword] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Password: " + password + " Confirm Password: " + cnfPassword);
+    if (!password || !cnfPassword) {
+      setIsError(true);
+      return;
+    }
+    if (password !== cnfPassword) {
+      setIsError(true);
+      return;
+    }
+
+    try {
+      const res = await axios.post("http://localhost:5001/reset-password", {
+        password,
+        userId,
+        token
+      });
+      if (res.status === 200) {
+        window.location.href = "/passwordUpdated";
+      }
+    } catch (error) {
+      setIsError(true);
+    }
+    
+
   };
   return (
     <Container fluid className="vh-100">

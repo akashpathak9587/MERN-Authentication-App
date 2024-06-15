@@ -21,7 +21,9 @@ const UserSchema = new mongoose.Schema({
         type: String,
         // required: [true, 'Password is required'],
         minlength: [8, 'Password must be at least 8 characters long']
-    }
+    },
+    resetToken: String,
+    resetTokenExpires: Date
 }, { timestamps: true });
 
 // Export the User model
